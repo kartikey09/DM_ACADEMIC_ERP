@@ -1,5 +1,11 @@
 package com.DM.AcademicERP.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
+
 import com.DM.AcademicERP.entity.Program;
 import com.DM.AcademicERP.repository.ProgramRepository;
 import com.DM.AcademicERP.repository.DepartmentRepository;
@@ -9,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Program API", description = "Endpoints for managing Program")
 @RestController
 @RequestMapping("/api/programs")
 public class ProgramController {
@@ -19,16 +26,19 @@ public class ProgramController {
     @Autowired
     private DepartmentRepository departmentRepository;
 
+    @Operation(summary = "Get all Programs")
     @GetMapping
     public List<Program> getAll() {
         return programRepository.findAll();
     }
 
+    @Operation(summary = "Get Program ('/department/{deptId}')")
     @GetMapping("/department/{deptId}")
     public List<Program> getByDepartment(@PathVariable Long deptId) {
         return programRepository.findByDepartment_DepartmentId(deptId);
     }
 
+    @Operation(summary = "Get Program ('/{id}')")
     @GetMapping("/{id}")
     public ResponseEntity<Program> getById(@PathVariable Long id) {
         return programRepository.findById(id)
@@ -36,6 +46,7 @@ public class ProgramController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Create a new Program")
     @PostMapping
     public ResponseEntity<Program> create(@RequestBody Program program) {
         if(program.getDepartment() != null && program.getDepartment().getDepartmentId() != null) {
@@ -47,6 +58,7 @@ public class ProgramController {
         return ResponseEntity.badRequest().build();
     }
 
+    @Operation(summary = "Update an existing Program")
     @PutMapping("/{id}")
     public ResponseEntity<Program> update(@PathVariable Long id, @RequestBody Program updated) {
         return programRepository.findById(id).map(existing -> {
@@ -60,6 +72,7 @@ public class ProgramController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Delete a Program")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (programRepository.existsById(id)) {

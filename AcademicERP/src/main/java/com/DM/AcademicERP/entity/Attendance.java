@@ -1,18 +1,16 @@
 package com.DM.AcademicERP.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "attendance", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"student_id", "offering_id", "date"})
 })
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Attendance {
 
     public enum AttendanceStatus {
@@ -40,6 +38,68 @@ public class Attendance {
     private AttendanceStatus status;
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    @Builder.Default
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    // Default constructor
+    public Attendance() {}
+
+    // All-args constructor
+    public Attendance(Long attendanceId, Student student, CourseOffering courseOffering, 
+                     LocalDate date, AttendanceStatus status, LocalDateTime createdAt) {
+        this.attendanceId = attendanceId;
+        this.student = student;
+        this.courseOffering = courseOffering;
+        this.date = date;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
+    // Getters and Setters
+    public Long getAttendanceId() {
+        return attendanceId;
+    }
+
+    public void setAttendanceId(Long attendanceId) {
+        this.attendanceId = attendanceId;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public CourseOffering getCourseOffering() {
+        return courseOffering;
+    }
+
+    public void setCourseOffering(CourseOffering courseOffering) {
+        this.courseOffering = courseOffering;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public AttendanceStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AttendanceStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

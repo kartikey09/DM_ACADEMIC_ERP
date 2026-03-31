@@ -1,16 +1,14 @@
 package com.DM.AcademicERP.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "assessment")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Assessment {
 
     public enum AssessmentType {
@@ -38,4 +36,67 @@ public class Assessment {
 
     @Column(name = "assessment_date", nullable = false)
     private LocalDate assessmentDate;
+
+    // Default constructor
+    public Assessment() {}
+
+    // All-args constructor
+    public Assessment(Long assessmentId, CourseOffering courseOffering, AssessmentType type, 
+                     BigDecimal maxMarks, BigDecimal weightage, LocalDate assessmentDate) {
+        this.assessmentId = assessmentId;
+        this.courseOffering = courseOffering;
+        this.type = type;
+        this.maxMarks = maxMarks;
+        this.weightage = weightage;
+        this.assessmentDate = assessmentDate;
+    }
+
+    // Getters and Setters
+    public Long getAssessmentId() {
+        return assessmentId;
+    }
+
+    public void setAssessmentId(Long assessmentId) {
+        this.assessmentId = assessmentId;
+    }
+
+    public CourseOffering getCourseOffering() {
+        return courseOffering;
+    }
+
+    public void setCourseOffering(CourseOffering courseOffering) {
+        this.courseOffering = courseOffering;
+    }
+
+    public AssessmentType getType() {
+        return type;
+    }
+
+    public void setType(AssessmentType type) {
+        this.type = type;
+    }
+
+    public BigDecimal getMaxMarks() {
+        return maxMarks;
+    }
+
+    public void setMaxMarks(BigDecimal maxMarks) {
+        this.maxMarks = maxMarks;
+    }
+
+    public BigDecimal getWeightage() {
+        return weightage;
+    }
+
+    public void setWeightage(BigDecimal weightage) {
+        this.weightage = weightage;
+    }
+
+    public LocalDate getAssessmentDate() {
+        return assessmentDate;
+    }
+
+    public void setAssessmentDate(LocalDate assessmentDate) {
+        this.assessmentDate = assessmentDate;
+    }
 }

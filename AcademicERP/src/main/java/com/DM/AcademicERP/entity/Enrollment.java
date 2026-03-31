@@ -1,17 +1,15 @@
 package com.DM.AcademicERP.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
 import java.time.LocalDate;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "enrollment", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"student_id", "offering_id"})
 })
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Enrollment {
 
     public enum EnrollmentStatus {
@@ -36,6 +34,59 @@ public class Enrollment {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    @Builder.Default
     private EnrollmentStatus status = EnrollmentStatus.REGISTERED;
+
+    // Default constructor
+    public Enrollment() {}
+
+    // All-args constructor
+    public Enrollment(Long enrollmentId, Student student, CourseOffering courseOffering, 
+                     LocalDate enrollmentDate, EnrollmentStatus status) {
+        this.enrollmentId = enrollmentId;
+        this.student = student;
+        this.courseOffering = courseOffering;
+        this.enrollmentDate = enrollmentDate;
+        this.status = status;
+    }
+
+    // Getters and Setters
+    public Long getEnrollmentId() {
+        return enrollmentId;
+    }
+
+    public void setEnrollmentId(Long enrollmentId) {
+        this.enrollmentId = enrollmentId;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    public CourseOffering getCourseOffering() {
+        return courseOffering;
+    }
+
+    public void setCourseOffering(CourseOffering courseOffering) {
+        this.courseOffering = courseOffering;
+    }
+
+    public LocalDate getEnrollmentDate() {
+        return enrollmentDate;
+    }
+
+    public void setEnrollmentDate(LocalDate enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
+    }
+
+    public EnrollmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EnrollmentStatus status) {
+        this.status = status;
+    }
 }

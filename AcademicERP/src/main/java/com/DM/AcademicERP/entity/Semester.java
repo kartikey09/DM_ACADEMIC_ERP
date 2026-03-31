@@ -1,16 +1,14 @@
 package com.DM.AcademicERP.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "semester", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"term", "year"})
 })
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Semester {
 
     public enum Term {
@@ -28,4 +26,39 @@ public class Semester {
 
     @Column(name = "year", nullable = false)
     private Integer year;
+
+    // Default constructor
+    public Semester() {}
+
+    // All-args constructor
+    public Semester(Long semesterId, Term term, Integer year) {
+        this.semesterId = semesterId;
+        this.term = term;
+        this.year = year;
+    }
+
+    // Getters and Setters
+    public Long getSemesterId() {
+        return semesterId;
+    }
+
+    public void setSemesterId(Long semesterId) {
+        this.semesterId = semesterId;
+    }
+
+    public Term getTerm() {
+        return term;
+    }
+
+    public void setTerm(Term term) {
+        this.term = term;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
+    }
 }

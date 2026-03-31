@@ -1,14 +1,12 @@
 package com.DM.AcademicERP.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "course")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Course {
 
     @Id
@@ -24,4 +22,48 @@ public class Course {
 
     @Column(name = "credits", nullable = false)
     private Integer credits;
+
+    // Default constructor
+    public Course() {}
+
+    // All-args constructor
+    public Course(Long courseId, String courseCode, String title, Integer credits) {
+        this.courseId = courseId;
+        this.courseCode = courseCode;
+        this.title = title;
+        this.credits = credits;
+    }
+
+    // Getters and Setters
+    public Long getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(Long courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getCredits() {
+        return credits;
+    }
+
+    public void setCredits(Integer credits) {
+        this.credits = credits;
+    }
 }
